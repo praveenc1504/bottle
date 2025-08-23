@@ -1,0 +1,36 @@
+.bottle-grid {
+  display: flex;
+  flex-wrap: wrap;       /* allow multiple rows */
+  justify-content: center;
+  gap: 10px;             /* spacing between bottles */
+  margin-top: 20px;
+}
+
+.bottle {
+  width: 40px;           /* adjusted bottle body */
+  height: 100px;
+  border-radius: 15px 15px 5px 5px; 
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-weight: bold;
+  color: white;
+  padding-bottom: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  position: relative;
+  margin: 10px;
+  text-align: center;
+}
+
+/* Bottle neck */
+.bottle::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;           /* smaller neck */
+  height: 20px;
+  background-color: inherit;
+  border-radius: 5px 5px 0 0;
+}
