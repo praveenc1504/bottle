@@ -20,7 +20,7 @@
 
 .bottle {
   width: 40px;           /* adjusted bottle body */
-  height: 100px;
+  height: 110px;
   border-radius: 15px 15px 5px 5px; 
   display: flex;
   justify-content: center;
