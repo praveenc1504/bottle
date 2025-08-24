@@ -1,6 +1,7 @@
 import React from "react";
 import "./Game.css";
 function Game({ number }) {
+  const [hint,setHint]=React.useState("");
   const COLORS = [
     "#08801eff",
     "#FFB347",
@@ -15,9 +16,23 @@ function Game({ number }) {
   ];
   // Pick colors in sequence from the palette
   const [bottles,setBottel] =React.useState( Array.from({ length: number }, (_, i) => ({
-    id: i,
-    color: COLORS[i % COLORS.length], // cycle through 13 colors
-  })));
+      id: i,
+      color: COLORS[i % COLORS.length],
+    })));
+
+  // Helper to shuffle array
+  const shuffle = (arr) => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  // Scrambled bottles (same colors, just rearranged)
+  const [scrambled] = React.useState(() => shuffle(bottles));
+
   const [b1,setb1]=React.useState("");
   const [b2,setb2]=React.useState("");
   const handleSwap=()=>{
@@ -67,25 +82,15 @@ function Game({ number }) {
     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
     margin: "10px auto"
   }}
-></div>
+>{hint}</div>
+      <div className="bottle-grid">
+        {scrambled.map((b, i) => (
+          <div key={i} className="bottle" style={{ background: b.color }}>
+            {b.id + 1}
+          </div>
+        ))}
+      </div>
 
-<div
-  className="Hint"
-  style={{
-    width: `${number * 50}px`,
-    height: "110px",
-    marginTop: "20px",
-    background: "#e3f2fd", // light blue for hint
-    color: "#0d47a1",
-    
-    borderRadius: "8px",
-    padding: "10px",
-    fontSize: "14px",
-    fontWeight: "bold"
-  }}
->
-  💡 Hint: Try to group same-colored bottles!
-</div>
   <div className="swap">
     <input type="number" placeholder="bottle 1"
      value={b1}
