@@ -1,7 +1,14 @@
 .bottle-grid {
   display: flex;
   flex-wrap: wrap;       /* allow multiple rows */
-  justify-content: center;
+  justify-content: space-around;
+  gap: 10px;             /* spacing between bottles */
+  margin-top: 20px;
+}
+.bottle-grid_1{
+  display: none;
+  flex-wrap: wrap;       /* allow multiple rows */
+  justify-content: space-around;
   gap: 10px;             /* spacing between bottles */
   margin-top: 20px;
 }
