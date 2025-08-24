@@ -76,8 +76,24 @@ function Game({ number }) {
       return `You have ${count} bottles in correct position`;
     });
   };
+  const gotoHome=()=>{
+    window.location.reload();
+  }
   return (
     <>
+<button 
+  onClick={gotoHome} 
+  style={{ 
+    position: "absolute", 
+    top: "10px", 
+    left: "10px", 
+    padding: "8px 16px",
+    backgroundColor: "#5100ffff", 
+  }}
+>
+  Back
+</button>
+
       <div className="game-container">
         {" "}
         <h1>Game started with {number} bottles</h1>
