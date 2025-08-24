@@ -3,17 +3,7 @@ import "./Game.css";
 function Game({ number }) {
   const [win, setWin] = React.useState(false);
   const [hint, setHint] = React.useState("");
-  const COLORS = [
-    "#08801eff",
-    "#FFB347",
-    "#773dffff",
-    "#e0e7e1ff",
-    "#d7128bff",
-    "#000000ff",
-    "#cdf40bff",
-    "#ff1307ff",
-    "#00efdfff",
-    "#07e651ff",
+  const COLORS = ["#08801eff","#FFB347","#773dffff","#e0e7e1ff","#d7128bff","#000000ff","#cdf40bff","#ff1307ff", "#00efdfff","#07e651ff",
   ];
   // Pick colors in sequence from the palette
   const [bottles, setBottel] = React.useState(
@@ -41,29 +31,19 @@ function Game({ number }) {
 
   const [b1, setb1] = React.useState("");
   const [b2, setb2] = React.useState("");
-  const handleSwap = () => {
-    const i1 = parseInt(b1) - 1;
-    const i2 = parseInt(b2) - 1;
-    if (
-      isNaN(i1) ||
-      isNaN(i2) ||
-      i1 < 0 ||
-      i2 < 0 ||
-      i1 >= bottles.length ||
-      i2 >= bottles.length
-    ) {
-      alert("Invalid bottle numbers!");
-      return;
-    }
-    const newBottles = [...bottles];
-    const tempColor = newBottles[i1].color;
-    newBottles[i1].color = newBottles[i2].color;
-    newBottles[i2].color = tempColor;
+ 
+  const [sel,setSel]=React.useState(null);
 
-    setBottel(newBottles);
-    setb1("");
-    setb2("");
-    setHint(() => {
+  const handleBottleClick = (index) => {
+    if(sel=== null){
+      setSel(index);}
+      else{
+        let newBottles =[...bottles];
+        const tempColor = newBottles[index].color;
+        [newBottles[index].color,newBottles[sel].color]=[newBottles[sel].color,tempColor];
+        setBottel(newBottles);
+        setSel(null);
+         setHint(() => {
       let count = 0;
       for (let i = 0; i < newBottles.length; i++) {
         if (newBottles[i].color === scrambled[i].color) count++;
@@ -75,7 +55,9 @@ function Game({ number }) {
 
       return `You have ${count} bottles in correct position`;
     });
-  };
+      }
+    }
+ 
   const gotoHome=()=>{
     window.location.reload();
   }
@@ -102,7 +84,8 @@ function Game({ number }) {
         {bottles.map((i) => (
           <div
             key={i.id}
-            className="bottle"
+            className={`bottle ${sel === i.id ? "selected" : ""}`}
+            onClick={()=> handleBottleClick(i.id)}
             style={{ backgroundColor: i.color }}
           >
             {i.id + 1}
@@ -125,26 +108,10 @@ function Game({ number }) {
       </div>
      <div className={`bottle-grid ${win ? "" : "bottle-grid_1"}`}>
         {scrambled.map((b, i) => (
-          <div key={i} className="bottle" style={{ background: b.color }}>
+          <div key={i} className="bottle"  style={{ background: b.color }}>
             {b.id + 1}
           </div>
         ))}
-      </div>
-
-      <div className="swap">
-        <input
-          type="number"
-          placeholder="bottle 1"
-          value={b1}
-          onChange={(e) => setb1(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="bottle 2"
-          value={b2}
-          onChange={(e) => setb2(e.target.value)}
-        />
-        <button onClick={handleSwap}>Swap</button>
       </div>
     </>
   );

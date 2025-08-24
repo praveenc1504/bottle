@@ -5,6 +5,11 @@
   gap: 10px;             /* spacing between bottles */
   margin-top: 20px;
 }
+.bottle.selected {
+  border: 3px solid yellow;
+  transform: scale(1.01);
+}
+
 .bottle-grid_1{
   display: none;
   flex-wrap: wrap;       /* allow multiple rows */
