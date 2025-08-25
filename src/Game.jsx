@@ -3,6 +3,8 @@ import "./Game.css";
 function Game({ number }) {
   const [running, setRunning] =React.useState(true);
     const [time, setTime] = React.useState(0);
+    const [undob1, setUndob1] = React.useState(null);
+    const [undob2, setUndob2] = React.useState(null);
   useEffect(() => {
     let interval;
     if (running) {
@@ -15,12 +17,16 @@ function Game({ number }) {
     return () => clearInterval(interval); // cleanup
   }, [running]);
 
-  const handleStart = () => setRunning(true);
-  const handleStop = () => setRunning(false);
-  const handleReset = () => {
-    setRunning(false);
-    setTime(0);
+  const undo = () => {
+       let newBottles = [...bottles];
+      const tempColor = newBottles[undob1].color;
+      [newBottles[undob1].color, newBottles[undob2].color] = [
+        newBottles[undob2].color,
+        tempColor,
+      ];
   };
+  const handleStop = () => setRunning(false);
+  
 
   // format time as mm:ss
   const formatTime = (t) => {
@@ -69,11 +75,13 @@ function Game({ number }) {
   const [b2, setb2] = React.useState("");
 
   const [sel, setSel] = React.useState(null);
-
+ 
   const handleBottleClick = (index) => {
     if (sel === null) {
       setSel(index);
+      setUndob1(index);
     } else {
+      setUndob2(index);
       let newBottles = [...bottles];
       const tempColor = newBottles[index].color;
       [newBottles[index].color, newBottles[sel].color] = [
@@ -114,6 +122,18 @@ function Game({ number }) {
         }}
       >
         Back
+      </button>
+       <button
+        onClick={undo}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          padding: "8px 16px",
+          backgroundColor: "#5100ffff",
+        }}
+      >
+        undo
       </button>
     <div className="timer">
       <h2>⏱️ Time: {formatTime(time)}</h2>
