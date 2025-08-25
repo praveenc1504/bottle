@@ -1,6 +1,18 @@
 import React ,{useEffect} from "react";
 import "./Game.css";
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+
 function Game({ number }) {
+   const [show, setShow] =React.useState(false);
+
+  const handleClick = () => {
+    setShow(true);
+
+    // stop fireworks after 3 seconds
+    setTimeout(() => {
+      setShow(false);
+    }, 5000);
+  };
   const [running, setRunning] =React.useState(true);
     const [time, setTime] = React.useState(0);
     const [undob1, setUndob1] = React.useState(null);
@@ -24,6 +36,27 @@ function Game({ number }) {
         newBottles[undob2].color,
         tempColor,
       ];
+       setBottel(newBottles);
+         setHint(() => {
+        let count = 0;
+        for (let i = 0; i < newBottles.length; i++) {
+          if (newBottles[i].color === scrambled[i].color) count++;
+        }
+      if (parseInt(number) === count) {
+  setWin(true);
+  handleStop();
+
+  if (number < 4) {
+    return <span className="small-congrats">Congratulations! You've arranged all bottles correctly!</span>;
+  } else {
+    handleClick();
+    return "Congratulations! You've arranged all bottles correctly!";
+  }
+}
+
+
+        return `You have ${count} bottles in correct position`;
+      });
   };
   const handleStop = () => setRunning(false);
   
@@ -79,9 +112,10 @@ function Game({ number }) {
   const handleBottleClick = (index) => {
     if (sel === null) {
       setSel(index);
-      setUndob1(index);
     } else {
       setUndob2(index);
+      setUndob1(sel);
+
       let newBottles = [...bottles];
       const tempColor = newBottles[index].color;
       [newBottles[index].color, newBottles[sel].color] = [
@@ -95,11 +129,18 @@ function Game({ number }) {
         for (let i = 0; i < newBottles.length; i++) {
           if (newBottles[i].color === scrambled[i].color) count++;
         }
-        if (parseInt(number) === count) {
-          setWin(true);
-          handleStop();
-          return `Congratulations! You've arranged all bottles correctly!`;
-        }
+      if (parseInt(number) === count) {
+  setWin(true);
+  handleStop();
+
+  if (number < 4) {
+    return <span className="small-congrats">Congratulations! You've arranged all bottles correctly!</span>;
+  } else {
+    handleClick();
+    return "Congratulations! You've arranged all bottles correctly!";
+  }
+}
+
 
         return `You have ${count} bottles in correct position`;
       });
@@ -135,6 +176,7 @@ function Game({ number }) {
       >
         undo
       </button>
+      {show && <Fireworks autorun={{ speed: 6 }} />}
     <div className="timer">
       <h2>⏱️ Time: {formatTime(time)}</h2>
     </div>
