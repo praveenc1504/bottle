@@ -1,11 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import Home from "./Home";
 function Login() {
+  
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true); // toggle state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,6 +25,12 @@ function Login() {
       const data = await res.json();
       console.log("Response:", data);
       setMessage(data.message);
+        if (data.message === "Login successful") {
+    navigate(`/home/${username}`);
+
+
+  }
+
     } catch (error) {
       console.error("Error:", error);
       setMessage("Server error, please try again.");

@@ -2,7 +2,7 @@ import React ,{useEffect} from "react";
 import "./Game.css";
 import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 
-function Game({ number }) {
+function Game({ number, username }) {
    const [show, setShow] =React.useState(false);
 
   const handleClick = () => {

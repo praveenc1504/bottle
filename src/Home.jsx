@@ -1,10 +1,11 @@
 import React from "react";
 import Game from "./Game";
 import './Home.css';
+import {useParams} from 'react-router-dom';
 function Home() {
   const [number, setNumber] = React.useState(0);
   const [startGame, setStartGame] = React.useState(false);
- 
+  const {username}= useParams();
   function start() {
     const num = parseInt(number);
     if (num >= 3 && num <= 10) {
@@ -15,13 +16,12 @@ function Home() {
   }
 
   if (startGame) {
-    return <Game number={number} />;
-  }
+return <Game number={number} username={username} />;  }
 
   return (
     <>
       <div>
-        <h1>Welcome to the Bottle Game!</h1>
+        <h1>{username}, Welcome to the Bottle Game!</h1>
       </div>
       <div>
         <p>This is about bottle shuffle game, enter your number of bottles (3–10)</p>
