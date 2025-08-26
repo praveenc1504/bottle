@@ -4,7 +4,7 @@ import './Home.css';
 function Home() {
   const [number, setNumber] = React.useState(0);
   const [startGame, setStartGame] = React.useState(false);
-
+ 
   function start() {
     const num = parseInt(number);
     if (num >= 3 && num <= 10) {
